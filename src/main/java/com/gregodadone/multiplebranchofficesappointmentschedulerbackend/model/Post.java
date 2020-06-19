@@ -13,6 +13,6 @@ public class Post {
     private PostType type;
     private int amountAvailable;
     private int amountEnabled;
-    private Minutes turnDuration;
+    private int turnDuration;
     private BranchOffice branchOffice;
 }

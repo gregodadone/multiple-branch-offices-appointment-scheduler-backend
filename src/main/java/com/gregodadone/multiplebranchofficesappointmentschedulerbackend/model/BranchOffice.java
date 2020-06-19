@@ -1,30 +1,44 @@
 package com.gregodadone.multiplebranchofficesappointmentschedulerbackend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.joda.time.LocalTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalTime;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class BranchOffice {
-    @Id
-    @GeneratedValue
-    private long id;
+public class BranchOffice extends BaseEntity {
+
+    @Column
     private String province; //state
+
+    @Column
     private String city;
+
+    @Column
     private String district;
+
+    @Column
     private String phoneNumber;
+
+    @Column
     private boolean enabled;
+
+    @Column
     private String name;
+
+    @Column
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm:ss", timezone = "UTC")
+    @JsonFormat(pattern = "hh:mm:ss")
     private LocalTime openingTime;
+
+    @Column
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm:ss", timezone = "UTC")
+    @JsonFormat(pattern = "hh:mm:ss")
     private LocalTime closingTime;
 }
