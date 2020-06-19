@@ -28,7 +28,7 @@ public class BranchOffice extends BaseEntity {
     private String district;
 
     @Column
-    @ApiModelProperty(value = "Phone Number", example = "3624000000", position = 4)
+    @ApiModelProperty(value = "Phone Number", example = "+543624000000", position = 4)
     private String phoneNumber;
 
     @Column
