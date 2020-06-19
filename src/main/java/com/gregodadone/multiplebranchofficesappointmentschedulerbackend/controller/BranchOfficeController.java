@@ -19,7 +19,7 @@ public class BranchOfficeController {
         this.branchOfficeService = branchOfficeService;
     }
 
-    @PostMapping("")
+    @PostMapping
     public void addBranchOffice(@RequestBody BranchOffice branchOffice) {
         branchOfficeService.addBranchOffice(branchOffice);
     }

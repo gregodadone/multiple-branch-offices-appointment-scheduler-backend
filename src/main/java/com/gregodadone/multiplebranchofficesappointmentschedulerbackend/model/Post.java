@@ -3,7 +3,6 @@ package com.gregodadone.multiplebranchofficesappointmentschedulerbackend.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.joda.time.Minutes;
 
 @Data
 @NoArgsConstructor

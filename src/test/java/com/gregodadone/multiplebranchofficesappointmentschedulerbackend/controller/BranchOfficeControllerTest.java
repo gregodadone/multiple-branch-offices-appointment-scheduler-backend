@@ -32,7 +32,7 @@ public class BranchOfficeControllerTest {
 
     @BeforeEach
     public void before() {
-        branchOfficeRepository.deleteAll();
+        //branchOfficeRepository.deleteAll();
     }
 
     @Test
@@ -48,9 +48,16 @@ public class BranchOfficeControllerTest {
 
     @Test
     public void postBranchOffice_whenValid_shouldSaveToDB() {
+        branchOfficeRepository.deleteAll();
+
         BranchOffice branchOffice = createBranchOffice();
         restTemplate.postForEntity(BRANCH_OFFICES_PATH, branchOffice, Object.class);
         assertThat(branchOfficeRepository.count()).isEqualTo(1);
+    }
+
+    @Test
+    public void getBranchOffice_whenValidRequest_shouldReturnBranchOffice() {
+
     }
 
     private BranchOffice createBranchOffice() {
