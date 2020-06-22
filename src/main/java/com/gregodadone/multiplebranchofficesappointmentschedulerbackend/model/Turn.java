@@ -1,24 +1,47 @@
 package com.gregodadone.multiplebranchofficesappointmentschedulerbackend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.sql.Date;
-import java.sql.Time;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Turn {
-    private long id;
-    private Date date;
-    private Time time;
+@Builder
+@Entity
+public class Turn extends BaseEntity {
+
+    @Column
+    private LocalDate date;
+
+    @Column
+    private LocalTime time;
+
+    @Column
     private String reason;
+
+    @Column
     private int userId;
-    private String phoneNumber;
+
+    @Column
+    private String userPhoneNumber;
+
+    @Column
     private boolean cancelled;
-    private Date cancellationDate;
+
+    @Column
+    private LocalDate cancellationDate;
+
+    @ManyToOne
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "office_id")
     private BranchOffice branchOffice;
 }

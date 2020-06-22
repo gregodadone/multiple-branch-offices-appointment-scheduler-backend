@@ -1,17 +1,31 @@
 package com.gregodadone.multiplebranchofficesappointmentschedulerbackend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import javax.persistence.*;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post {
-    private long id;
+@Builder
+@Entity
+public class Post extends BaseEntity {
+
+    @ManyToOne
+    @JoinColumn(name = "type_id")
     private PostType type;
+
+    @Column
     private int amountAvailable;
+
+    @Column
     private int amountEnabled;
+
+    @Column
     private int turnDuration;
+
+    @ManyToOne
+    @JoinColumn(name = "office_id")
     private BranchOffice branchOffice;
 }
