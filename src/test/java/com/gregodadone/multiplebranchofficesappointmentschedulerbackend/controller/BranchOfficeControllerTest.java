@@ -79,9 +79,6 @@ public class BranchOfficeControllerTest {
         BranchOffice branchOffice = branchOfficeEntity.getBody();
         assertThat(branchOffice).isNotNull();
         assertThat(branchOffice.getId()).isEqualTo(id);
-        assertThat(branchOffice.getProvince()).isEqualTo(PROVINCE);
-        assertThat(branchOffice.getCity()).isEqualTo(CITY);
-        assertThat(branchOffice.getDistrict()).isEqualTo(DISTRICT);
         assertThat(branchOffice.getName()).isEqualTo(OFFICE_NAME);
         assertThat(branchOffice.getPhoneNumber()).isEqualTo(PHONE_NUMBER);
         assertThat(branchOffice.isEnabled()).isEqualTo(ENABLED);
@@ -99,9 +96,6 @@ public class BranchOfficeControllerTest {
 
     private BranchOffice createBranchOffice() {
         return BranchOffice.builder()
-                .province(PROVINCE)
-                .city(CITY)
-                .district(DISTRICT)
                 .name(OFFICE_NAME)
                 .enabled(ENABLED)
                 .phoneNumber(PHONE_NUMBER)

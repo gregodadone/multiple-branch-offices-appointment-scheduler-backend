@@ -27,16 +27,13 @@ public class Turn extends BaseEntity {
     private String reason;
 
     @Column
-    private int userId;
-
-    @Column
-    private String userPhoneNumber;
-
-    @Column
     private boolean cancelled;
 
     @Column
     private LocalDate cancellationDate;
+
+    @ManyToOne
+    private Client client;
 
     @ManyToOne
     private Post post;
