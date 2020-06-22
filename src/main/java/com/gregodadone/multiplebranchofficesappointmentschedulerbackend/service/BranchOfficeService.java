@@ -4,6 +4,8 @@ import com.gregodadone.multiplebranchofficesappointmentschedulerbackend.model.Br
 import com.gregodadone.multiplebranchofficesappointmentschedulerbackend.repository.BranchOfficeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class BranchOfficeService {
 
@@ -15,5 +17,9 @@ public class BranchOfficeService {
 
     public void addBranchOffice(BranchOffice branchOffice) {
         repository.save(branchOffice);
+    }
+
+    public Optional<BranchOffice> getBranchOfficeById(long id) {
+        return repository.findById(id);
     }
 }

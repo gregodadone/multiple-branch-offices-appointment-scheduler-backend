@@ -2,10 +2,11 @@ package com.gregodadone.multiplebranchofficesappointmentschedulerbackend.control
 
 import com.gregodadone.multiplebranchofficesappointmentschedulerbackend.model.BranchOffice;
 import com.gregodadone.multiplebranchofficesappointmentschedulerbackend.service.BranchOfficeService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 import static com.gregodadone.multiplebranchofficesappointmentschedulerbackend.constants.Paths.BRANCH_OFFICES_PATH;
 
@@ -22,5 +23,12 @@ public class BranchOfficeController {
     @PostMapping
     public void addBranchOffice(@RequestBody BranchOffice branchOffice) {
         branchOfficeService.addBranchOffice(branchOffice);
+    }
+
+    @GetMapping("/{branchOfficeId}")
+    public ResponseEntity<BranchOffice> getBranchOfficeById(@PathVariable(name = "branchOfficeId") long id) {
+        Optional<BranchOffice> branchOffice = branchOfficeService.getBranchOfficeById(id);
+        return branchOffice.map(office -> new ResponseEntity<>(office, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

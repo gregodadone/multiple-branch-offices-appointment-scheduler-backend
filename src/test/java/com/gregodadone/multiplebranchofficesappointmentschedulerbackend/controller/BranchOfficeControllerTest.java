@@ -11,7 +11,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.sql.Time;
 import java.time.LocalTime;
 
 import static com.gregodadone.multiplebranchofficesappointmentschedulerbackend.constants.Paths.BRANCH_OFFICES_PATH;
@@ -20,6 +19,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 //@ActiveProfiles("test")
 public class BranchOfficeControllerTest {
+
+    private static final String PROVINCE = "Chaco";
+    private static final String CITY = "Resistencia";
+    private static final String DISTRICT = "Villa Centenario";
+    private static final String OFFICE_NAME = "Office 1";
+    private static final String PHONE_NUMBER = "3624321123";
+    private static final LocalTime OPENING_TIME = LocalTime.parse("09:00:00");
+    private static final LocalTime CLOSING_TIME = LocalTime.parse("18:00:00");
+    private static final boolean ENABLED = true;
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -39,7 +47,7 @@ public class BranchOfficeControllerTest {
     public void postBranchOffice_whenValid_shouldReturnOk() {
         BranchOffice branchOffice = createBranchOffice();
 
-        String json = jsonConverter.toJson(branchOffice);
+        //String json = jsonConverter.toJson(branchOffice);
 
         ResponseEntity<Object> responseEntity
                 = restTemplate.postForEntity(BRANCH_OFFICES_PATH, branchOffice, Object.class);
@@ -56,20 +64,60 @@ public class BranchOfficeControllerTest {
     }
 
     @Test
-    public void getBranchOffice_whenValidRequest_shouldReturnBranchOffice() {
+    public void getBranchOffice_whenValidRequest_shouldReturnOk() {
+        branchOfficeRepository.deleteAll();
+        restTemplate.postForEntity(BRANCH_OFFICES_PATH, createBranchOffice(), Object.class);
+        long id = branchOfficeRepository.findAll().get(0).getId();
 
+        ResponseEntity<BranchOffice> branchOfficeEntity
+                = restTemplate.getForEntity(BRANCH_OFFICES_PATH + "/" + id, BranchOffice.class);
+
+        assertThat(branchOfficeEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getBranchOffice_whenValidRequest_shouldReturnBranchOffice() {
+        branchOfficeRepository.deleteAll();
+
+        restTemplate.postForEntity(BRANCH_OFFICES_PATH, createBranchOffice(), Object.class);
+        long id = branchOfficeRepository.findAll().get(0).getId();
+
+        ResponseEntity<BranchOffice> branchOfficeEntity
+                = restTemplate.getForEntity(BRANCH_OFFICES_PATH + "/" + id, BranchOffice.class);
+
+        BranchOffice branchOffice = branchOfficeEntity.getBody();
+        assertThat(branchOffice).isNotNull();
+        assertThat(branchOffice.getId()).isEqualTo(id);
+        assertThat(branchOffice.getProvince()).isEqualTo(PROVINCE);
+        assertThat(branchOffice.getCity()).isEqualTo(CITY);
+        assertThat(branchOffice.getDistrict()).isEqualTo(DISTRICT);
+        assertThat(branchOffice.getName()).isEqualTo(OFFICE_NAME);
+        assertThat(branchOffice.getPhoneNumber()).isEqualTo(PHONE_NUMBER);
+        assertThat(branchOffice.isEnabled()).isEqualTo(ENABLED);
+        assertThat(branchOffice.getOpeningTime()).isEqualTo(OPENING_TIME);
+        assertThat(branchOffice.getClosingTime()).isEqualTo(CLOSING_TIME);
+    }
+
+    @Test
+    public void getBranchOffice_whenBranchOfficeDoesNotExists_shouldReturnNotFound() {
+        branchOfficeRepository.deleteAll();
+
+        ResponseEntity<BranchOffice> branchOfficeEntity
+                = restTemplate.getForEntity(BRANCH_OFFICES_PATH + "/" + 1, BranchOffice.class);
+
+        assertThat(branchOfficeEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     private BranchOffice createBranchOffice() {
         return BranchOffice.builder()
-                .province("Chaco")
-                .city("Resistencia")
-                .district("Villa Centenario")
-                .name("Office 1")
-                .enabled(true)
-                .phoneNumber("3624321123")
-                .openingTime(LocalTime.parse("09:00:00"))
-                .closingTime(LocalTime.parse("18:00:00"))
+                .province(PROVINCE)
+                .city(CITY)
+                .district(DISTRICT)
+                .name(OFFICE_NAME)
+                .enabled(ENABLED)
+                .phoneNumber(PHONE_NUMBER)
+                .openingTime(OPENING_TIME)
+                .closingTime(CLOSING_TIME)
                 .build();
     }
 }
