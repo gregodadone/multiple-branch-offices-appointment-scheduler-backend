@@ -35,19 +35,14 @@ public class BranchOfficeControllerTest {
     @Autowired
     private BranchOfficeRepository branchOfficeRepository;
 
-    @Autowired
-    private JsonConverter jsonConverter;
-
     @BeforeEach
     public void before() {
-        //branchOfficeRepository.deleteAll();
+        branchOfficeRepository.deleteAll();
     }
 
     @Test
     public void postBranchOffice_whenValid_shouldReturnOk() {
         BranchOffice branchOffice = createBranchOffice();
-
-        //String json = jsonConverter.toJson(branchOffice);
 
         ResponseEntity<Object> responseEntity
                 = restTemplate.postForEntity(BRANCH_OFFICES_PATH, branchOffice, Object.class);
@@ -56,16 +51,14 @@ public class BranchOfficeControllerTest {
 
     @Test
     public void postBranchOffice_whenValid_shouldSaveToDB() {
-        branchOfficeRepository.deleteAll();
-
         BranchOffice branchOffice = createBranchOffice();
         restTemplate.postForEntity(BRANCH_OFFICES_PATH, branchOffice, Object.class);
+
         assertThat(branchOfficeRepository.count()).isEqualTo(1);
     }
 
     @Test
     public void getBranchOffice_whenValidRequest_shouldReturnOk() {
-        branchOfficeRepository.deleteAll();
         restTemplate.postForEntity(BRANCH_OFFICES_PATH, createBranchOffice(), Object.class);
         long id = branchOfficeRepository.findAll().get(0).getId();
 
@@ -77,8 +70,6 @@ public class BranchOfficeControllerTest {
 
     @Test
     public void getBranchOffice_whenValidRequest_shouldReturnBranchOffice() {
-        branchOfficeRepository.deleteAll();
-
         restTemplate.postForEntity(BRANCH_OFFICES_PATH, createBranchOffice(), Object.class);
         long id = branchOfficeRepository.findAll().get(0).getId();
 
@@ -100,8 +91,6 @@ public class BranchOfficeControllerTest {
 
     @Test
     public void getBranchOffice_whenBranchOfficeDoesNotExists_shouldReturnNotFound() {
-        branchOfficeRepository.deleteAll();
-
         ResponseEntity<BranchOffice> branchOfficeEntity
                 = restTemplate.getForEntity(BRANCH_OFFICES_PATH + "/" + 1, BranchOffice.class);
 
